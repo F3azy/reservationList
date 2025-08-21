@@ -1,8 +1,10 @@
+import Navbar from "./components/Navbar";
+
 function App() {
   return (
-    <>
-      <div></div>
-    </>
+    <div className="h-screen flex flex-col">
+      <Navbar />
+    </div>
   );
 }
 
