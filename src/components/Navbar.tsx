@@ -1,13 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { CarNetLogo } from "../assets";
 import FormField from "./FormField";
-import { useTableData } from "../context/TableDataContext";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [username, setLogin] = useState("");
   const [pass, setPass] = useState("");
 
-  const { login, loading, error } = useTableData();
+  const { login, loading, error } = useAuth();
 
   async function SignIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

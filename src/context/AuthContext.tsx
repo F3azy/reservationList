@@ -2,17 +2,17 @@ import React, { useContext, useState } from "react";
 import useLogin from "../hooks/useLogin";
 import useAccessToken from "../hooks/useAccessToken";
 
-type TableDataContextType = {
+type AuthContextType = {
   accessToken: string | null;
   login: (username: string, password: string) => Promise<void>;
   loading: boolean;
   error: string | null;
 };
 
-const TableDataContext = React.createContext<null | TableDataContextType>(null);
+const AuthContext = React.createContext<null | AuthContextType>(null);
 
-export const useTableData = (): TableDataContextType => {
-  const context = useContext(TableDataContext);
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
   if (!context)
     throw new Error("useTableData must be used within an TableDataProvider");
   return context;
@@ -22,7 +22,7 @@ type ContextProviderProps = {
   children: React.ReactNode;
 };
 
-export const TableDataProvider = ({children}: ContextProviderProps) => {
+export const AuthProvider = ({children}: ContextProviderProps) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   const {
@@ -52,8 +52,8 @@ export const TableDataProvider = ({children}: ContextProviderProps) => {
   };
 
   return (
-    <TableDataContext.Provider value={value}>
+    <AuthContext.Provider value={value}>
       {children}
-    </TableDataContext.Provider>
+    </AuthContext.Provider>
   );
 };
