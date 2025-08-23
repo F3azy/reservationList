@@ -2,9 +2,12 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { TableDataProvider } from "./context/TableDataContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <TableDataProvider>
+      <App />
+    </TableDataProvider>
   </StrictMode>
 );
