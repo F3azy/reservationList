@@ -1,75 +1,37 @@
 import { useState, type FormEvent } from "react";
 import { CarNetLogo } from "../assets";
 import FormField from "./FormField";
+import { useTableData } from "../context/TableDataContext";
 
 const Navbar = () => {
-  const [login, setLogin] = useState("");
+  const [username, setLogin] = useState("");
   const [pass, setPass] = useState("");
 
-  const [loading, setLoading] = useState(false);
+  const { login, loading, error } = useTableData();
 
   async function SignIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (login === "" || pass === "") {
+    if (username.trim() === "" || pass.trim() === "") {
       return;
     }
 
-    try {
-      setLoading(true);
-
-      const response = await fetch(
-        "https://crs.carnet.pl/api/v1/common/authentication/jwt/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ login: login, password: pass }),
-        }
-      );
-
-      if (!response.ok) throw new Error("\nCode: " + response.status);
-
-      const json = await response.json();
-
-      console.log(json);
-
-      const response2 = await fetch(
-        "https://crs.carnet.pl/api/v1/common/authentication/jwt/accessToken",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(json.refreshToken),
-        }
-      );
-
-      if (!response2.ok) throw new Error("\nCode: " + response2.status);
-
-      const json2 = await response2.json();
-
-      console.log(json2);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setPass("");
-      setLogin("");
-      setLoading(false);
-    }
+    await login(username, pass);
+    setPass("");
+    setLogin("");
   }
 
   return (
     <nav className="w-full bg-dark-300 flex items-center justify-between px-40 py-4">
       <img src={CarNetLogo} alt="logo" />
-      <form className="flex gap-x-4" onSubmit={SignIn}>
+      <form className="flex gap-x-4" onSubmit={(e) => SignIn(e)}>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <FormField
           id="login"
           name="login"
           placeholder="Login"
           type="text"
-          value={login}
+          value={username}
           onChange={(e) => setLogin(e.target.value)}
         />
         <FormField
