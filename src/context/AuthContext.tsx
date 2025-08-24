@@ -14,7 +14,7 @@ const AuthContext = React.createContext<null | AuthContextType>(null);
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context)
-    throw new Error("useTableData must be used within an TableDataProvider");
+    throw new Error("useAuth must be used within an AuthProvider");
   return context;
 };
 
