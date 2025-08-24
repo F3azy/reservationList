@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { fetchJSON } from "../utils/api";
 
-const useFetchTableData = () => {
+const useFetchLetOut = () => {
   const { accessToken } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -44,4 +44,4 @@ const useFetchTableData = () => {
   return { data, loading, error };
 };
 
-export default useFetchTableData;
+export default useFetchLetOut;
