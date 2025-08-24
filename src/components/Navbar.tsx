@@ -25,7 +25,7 @@ const Navbar = () => {
     <nav className="w-full bg-dark-300 flex flex-col lg:flex-row gap-y-4 items-center justify-between px-2 lg:px-40 py-4">
       <img src={CarNetLogo} alt="logo" />
       <form className="w-full lg:w-auto flex flex-col lg:flex-row gap-x-4 gap-y-4" onSubmit={(e) => SignIn(e)}>
-        {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
+        {error && <p className="text-red-500 text-sm hidden">{error}</p>}
         <FormField
           id="login"
           name="login"
