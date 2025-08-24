@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { fetchJSON } from "../utils/api";
 import { returnFilter } from "../const/fetchFilters";
 import type { ApiResponse, SlimReservation } from "../types/reservation";
-import { filterTodayReturns, filterTomorrowReturns } from "../utils/dataFilter";
+import { filterTodayReturns } from "../utils/dataFilter";
 
 const useFetchReturn = () => {
   const { accessToken } = useAuth();
@@ -32,7 +32,7 @@ const useFetchReturn = () => {
           }
         );
 
-        setReturns(filterTomorrowReturns(data.data));
+        setReturns(filterTodayReturns(data.data));
       } catch (err) {
         setError((err as Error).message);
       } finally {

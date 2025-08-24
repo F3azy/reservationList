@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { fetchJSON } from "../utils/api";
 import { letOutFIlter } from "../const/fetchFilters";
-import { filterTodayLetOuts, filterTomorrowLetOuts } from "../utils/dataFilter";
+import { filterTodayLetOuts } from "../utils/dataFilter";
 import type { ApiResponse, SlimReservation } from "../types/reservation";
 
 const useFetchLetOut = () => {
@@ -32,7 +32,7 @@ const useFetchLetOut = () => {
           }
         );
 
-        setLetOuts(filterTomorrowLetOuts(data.data));
+        setLetOuts(filterTodayLetOuts(data.data));
       } catch (err) {
         setError((err as Error).message);
       } finally {
