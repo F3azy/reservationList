@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { fetchJSON } from "../utils/api";
-import { letOutFIlter } from "../const/fetchFilters";
-import { filterTodayLetOuts, filterTomorrowLetOuts } from "../utils/dataFilter";
+import { returnFilter } from "../const/fetchFilters";
 import type { ApiResponse, SlimReservation } from "../types/reservation";
+import { filterTodayReturns, filterTomorrowReturns } from "../utils/dataFilter";
 
-const useFetchLetOut = () => {
+const useFetchReturn = () => {
   const { accessToken } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [letOuts, setLetOuts] = useState<SlimReservation[]>([]);
+  const [returns, setReturns] = useState<SlimReservation[]>([]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -28,11 +28,11 @@ const useFetchLetOut = () => {
               "Content-Type": "application/json",
               Authorization: "Bearer " + accessToken,
             },
-            body: JSON.stringify(letOutFIlter),
+            body: JSON.stringify(returnFilter),
           }
         );
 
-        setLetOuts(filterTomorrowLetOuts(data.data));
+        setReturns(filterTomorrowReturns(data.data));
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -43,7 +43,7 @@ const useFetchLetOut = () => {
     fetchData();
   }, [accessToken]);
 
-  return { letOuts, loading, error };
+  return { returns, loading, error };
 };
 
-export default useFetchLetOut;
+export default useFetchReturn;
