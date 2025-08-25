@@ -15,10 +15,10 @@ const TableContainer = () => {
     type === "letOut" ? r.leases[0] : r.leases[r.leases.length - 1];
 
   const renderAppointed = (r: any, type: "letOut" | "return") =>
-    type === "letOut" ? (r.isLetOutConfirmed ? "✓" : "*") : (r.isReturnAppointed ? "✓" : "*");
+    type === "letOut" ? (r.isLetOutConfirmed ? "✓" : "-") : (r.isReturnAppointed ? "✓" : "-");
 
   const renderConfirmed = (r: any, type: "letOut" | "return") =>
-    type === "letOut" ? (r.isLetOutConfirmed ? "✓" : "*") : (r.isReturnConfirmed ? "✓" : "*");
+    type === "letOut" ? (r.isLetOutConfirmed ? "✓" : "-") : (r.isReturnConfirmed ? "✓" : "-");
 
   return (
     <main className="w-full px-2 lg:px-40 py-4">
