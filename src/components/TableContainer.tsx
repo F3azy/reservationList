@@ -1,4 +1,5 @@
 import { useTodayReservations } from "../hooks/useTodaysReservations";
+import { printReservationsPDF } from "../utils/print";
 
 const TableContainer = () => {
   const { letOutReservations, returnReservations, loading, error } =
@@ -15,14 +16,36 @@ const TableContainer = () => {
     type === "letOut" ? r.leases[0] : r.leases[r.leases.length - 1];
 
   const renderAppointed = (r: any, type: "letOut" | "return") =>
-    type === "letOut" ? (r.isLetOutConfirmed ? "✓" : "-") : (r.isReturnAppointed ? "✓" : "-");
+    type === "letOut"
+      ? r.isLetOutConfirmed 
+        ? "✓"
+        : "-"
+      : r.isReturnAppointed
+      ? "✓"
+      : "-";
 
   const renderConfirmed = (r: any, type: "letOut" | "return") =>
-    type === "letOut" ? (r.isLetOutConfirmed ? "✓" : "-") : (r.isReturnConfirmed ? "✓" : "-");
+    type === "letOut"
+      ? r.isLetOutConfirmed
+        ? "✓"
+        : "-"
+      : r.isReturnConfirmed
+      ? "✓"
+      : "-";
 
   return (
     <main className="w-full px-2 lg:px-40 py-4">
       <div className="w-full overflow-x-auto">
+        <div className="mb-4">
+          <button
+            className="bg-brand-primary text-white px-4 py-2 rounded hover:bg-brand-darker hover:cursor-pointer"
+            onClick={() =>
+              printReservationsPDF(letOutReservations, returnReservations)
+            }
+          >
+            Print PDF
+          </button>
+        </div>
         <table className="min-w-[700px] border-collapse border border-brand-primary w-full">
           <thead className="bg-brand-primary text-white">
             <tr>
@@ -39,14 +62,21 @@ const TableContainer = () => {
             {/* Let-Outs */}
             {letOutReservations.map((r, idx) => {
               const lease = getLease(r, "letOut");
-              const hour = new Date(r.startData.plannedDate).toTimeString().slice(0, 5);
+              const hour = new Date(r.startData.plannedDate)
+                .toTimeString()
+                .slice(0, 5);
               return (
-                <tr key={`letout-${idx}`} className="border-b border-brand-primary">
+                <tr
+                  key={`letout-${idx}`}
+                  className="border-b border-brand-primary"
+                >
                   <td className="py-3 px-4">{hour}</td>
                   <td className="py-3 px-4">-</td>
                   <td className="py-3 px-4">{lease.car.modelName}</td>
                   <td className="py-3 px-4">{lease.car.registrationNumber}</td>
-                  <td className="py-3 px-4">{lease.letOutData.address?.fullName || ""}</td>
+                  <td className="py-3 px-4">
+                    {lease.letOutData.address?.fullName || ""}
+                  </td>
                   <td className="py-3 px-4">{renderAppointed(r, "letOut")}</td>
                   <td className="py-3 px-4">{renderConfirmed(r, "letOut")}</td>
                 </tr>
@@ -65,21 +95,30 @@ const TableContainer = () => {
             {/* Adjustable gap rows */}
             {Array.from({ length: gapRows }).map((_, idx) => (
               <tr key={`gap-${idx}`} className="border-b border-brand-primary">
-                <td colSpan={7} className="py-3 px-4">&nbsp;</td>
+                <td colSpan={7} className="py-3 px-4">
+                  &nbsp;
+                </td>
               </tr>
             ))}
 
             {/* Returns */}
             {returnReservations.map((r, idx) => {
               const lease = getLease(r, "return");
-              const hour = new Date(r.endData.plannedDate).toTimeString().slice(0, 5);
+              const hour = new Date(r.endData.plannedDate)
+                .toTimeString()
+                .slice(0, 5);
               return (
-                <tr key={`return-${idx}`} className="border-b border-brand-primary">
+                <tr
+                  key={`return-${idx}`}
+                  className="border-b border-brand-primary"
+                >
                   <td className="py-3 px-4">-</td>
                   <td className="py-3 px-4">{hour}</td>
                   <td className="py-3 px-4">{lease.car.modelName}</td>
                   <td className="py-3 px-4">{lease.car.registrationNumber}</td>
-                  <td className="py-3 px-4">{lease.returnData.address?.fullName || ""}</td>
+                  <td className="py-3 px-4">
+                    {lease.returnData.address?.fullName || ""}
+                  </td>
                   <td className="py-3 px-4">{renderAppointed(r, "return")}</td>
                   <td className="py-3 px-4">{renderConfirmed(r, "return")}</td>
                 </tr>
