@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { fetchJSON } from "../utils/api";
 import { returnFilter } from "../const/fetchFilters";
-import type { ApiResponse, SlimReservation } from "../types/reservation";
-import { filterTodayReturns } from "../utils/dataFilter";
+import type { ApiResponse } from "../types/reservation";
+import { getReturnId } from "../utils/dataFilter";
 
-const useFetchReturn = () => {
+const useFetchReturnId = () => {
   const { accessToken } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [returns, setReturns] = useState<SlimReservation[]>([]);
+  const [returns, setReturns] = useState<String[]>([]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -32,7 +32,7 @@ const useFetchReturn = () => {
           }
         );
 
-        setReturns(filterTodayReturns(data.data));
+        setReturns(getReturnId(data.data));
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -46,4 +46,4 @@ const useFetchReturn = () => {
   return { returns, loading, error };
 };
 
-export default useFetchReturn;
+export default useFetchReturnId;

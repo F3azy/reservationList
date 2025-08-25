@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { fetchJSON } from "../utils/api";
 import { letOutFIlter } from "../const/fetchFilters";
-import { filterTodayLetOuts } from "../utils/dataFilter";
-import type { ApiResponse, SlimReservation } from "../types/reservation";
+import { getLetOutId } from "../utils/dataFilter";
+import type { ApiResponse } from "../types/reservation";
 
-const useFetchLetOut = () => {
+const useFetchLetOutId = () => {
   const { accessToken } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [letOuts, setLetOuts] = useState<SlimReservation[]>([]);
+  const [letOuts, setLetOuts] = useState<String[]>([]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -32,7 +32,7 @@ const useFetchLetOut = () => {
           }
         );
 
-        setLetOuts(filterTodayLetOuts(data.data));
+        setLetOuts(getLetOutId(data.data));
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -46,4 +46,4 @@ const useFetchLetOut = () => {
   return { letOuts, loading, error };
 };
 
-export default useFetchLetOut;
+export default useFetchLetOutId;

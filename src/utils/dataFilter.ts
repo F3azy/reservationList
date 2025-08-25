@@ -17,7 +17,7 @@ function isSameDay(date1: Date, date2: Date) {
 }
 
 // Let-out reservations: take first car
-export function filterTodayLetOuts(data: Reservation[]): SlimReservation[] {
+export function getLetOutId(data: Reservation[]): String[] {
   const today = new Date();
 
   return data
@@ -27,17 +27,11 @@ export function filterTodayLetOuts(data: Reservation[]): SlimReservation[] {
       return { ...r, dateObj, hour };
     })
     .filter((r) => isSameDay(r.dateObj, today))
-    .map((r) => ({
-      hourOfLetOut: r.hour,
-      carModel: pickFromList(r.carModels, "first"),
-      registration: pickFromList(r.carRegistrationNumber, "first"),
-      confirmedWithClient: r.isReturnConfirmed ? "Yes" : "No",
-      appointedByAssistance: r.isReturnAppointed ? "Yes" : "No",
-    }));
+    .map((r) => r.id);
 }
 
 // Return reservations: take last car
-export function filterTodayReturns(data: Reservation[]): SlimReservation[] {
+export function getReturnId(data: Reservation[]): String[] {
   const today = new Date();
 
   return data
@@ -47,11 +41,45 @@ export function filterTodayReturns(data: Reservation[]): SlimReservation[] {
       return { ...r, dateObj, hour };
     })
     .filter((r) => isSameDay(r.dateObj, today))
-    .map((r) => ({
-      hourOfLetOut: r.hour,
-      carModel: pickFromList(r.carModels, "last"),
-      registration: pickFromList(r.carRegistrationNumber, "last"),
-      confirmedWithClient: r.isReturnConfirmed ? "Yes" : "No",
-      appointedByAssistance: r.isReturnAppointed ? "Yes" : "No",
-    }));
+    .map((r) => r.id);
 }
+
+// // Let-out reservations: take first car
+// export function filterTodayLetOuts(data: Reservation[]): SlimReservation[] {
+//   const today = new Date();
+
+//   return data
+//     .map((r) => {
+//       const dateObj = new Date(r.startPlannedDate);
+//       const hour = dateObj.toTimeString().slice(0, 5); // HH:MM
+//       return { ...r, dateObj, hour };
+//     })
+//     .filter((r) => isSameDay(r.dateObj, today))
+//     .map((r) => ({
+//       hourOfLetOut: r.hour,
+//       carModel: pickFromList(r.carModels, "first"),
+//       registration: pickFromList(r.carRegistrationNumber, "first"),
+//       confirmedWithClient: r.isReturnConfirmed ? "Yes" : "No",
+//       appointedByAssistance: r.isReturnAppointed ? "Yes" : "No",
+//     }));
+// }
+
+// // Return reservations: take last car
+// export function filterTodayReturns(data: Reservation[]): SlimReservation[] {
+//   const today = new Date();
+
+//   return data
+//     .map((r) => {
+//       const dateObj = new Date(r.returnPlannedDate);
+//       const hour = dateObj.toTimeString().slice(0, 5); // HH:MM
+//       return { ...r, dateObj, hour };
+//     })
+//     .filter((r) => isSameDay(r.dateObj, today))
+//     .map((r) => ({
+//       hourOfLetOut: r.hour,
+//       carModel: pickFromList(r.carModels, "last"),
+//       registration: pickFromList(r.carRegistrationNumber, "last"),
+//       confirmedWithClient: r.isReturnConfirmed ? "Yes" : "No",
+//       appointedByAssistance: r.isReturnAppointed ? "Yes" : "No",
+//     }));
+// }
