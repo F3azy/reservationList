@@ -13,12 +13,14 @@ export default function useFetchReservationsByIds(ids: string[]) {
   useEffect(() => {
     if (!accessToken || ids.length === 0) return;
 
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     async function fetchData() {
       try {
         setLoading(true);
         setError(null);
 
-        // fetch each reservation in parallel
         const results = await Promise.all(
           ids.map((id) =>
             fetchJSON<Reservation>(
@@ -28,21 +30,27 @@ export default function useFetchReservationsByIds(ids: string[]) {
                   "Content-Type": "application/json",
                   Authorization: "Bearer " + accessToken,
                 },
+                signal, // pass signal to fetchJSON if it supports it
               }
             )
           )
         );
 
-        setReservations(results);
-      } catch (err) {
-        setError((err as Error).message);
+        if (!signal.aborted) {
+          setReservations(results);
+        }
+      } catch (err: any) {
+        if (!signal.aborted) setError(err.message || "Error fetching reservations");
       } finally {
-        setLoading(false);
+        if (!signal.aborted) setLoading(false);
       }
     }
 
     fetchData();
-  }, [accessToken]);
+
+    // cleanup: abort fetch if dependencies change
+    return () => controller.abort();
+  }, [accessToken, ids]);
 
   return { reservations, loading, error };
 }
