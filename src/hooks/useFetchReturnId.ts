@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { fetchJSON } from "../utils/api";
-import { letOutFIlter } from "../const/fetchFilters";
-import { getLetOutId } from "../utils/dataFilter";
+import { returnFilter } from "../const/fetchFilters";
 import type { ApiResponse } from "../types/reservation";
+import { getReturnId } from "../utils/dataFilter";
 
-const useFetchLetOutId = () => {
+const useFetchReturnId = () => {
   const { accessToken } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [letOuts, setLetOuts] = useState<String[]>([]);
+  const [returns, setReturns] = useState<string[]>([]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -28,11 +28,11 @@ const useFetchLetOutId = () => {
               "Content-Type": "application/json",
               Authorization: "Bearer " + accessToken,
             },
-            body: JSON.stringify(letOutFIlter),
+            body: JSON.stringify(returnFilter),
           }
         );
 
-        setLetOuts(getLetOutId(data.data));
+        setReturns(getReturnId(data.data));
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -43,7 +43,7 @@ const useFetchLetOutId = () => {
     fetchData();
   }, [accessToken]);
 
-  return { letOuts, loading, error };
+  return { returns, loading, error };
 };
 
-export default useFetchLetOutId;
+export default useFetchReturnId;

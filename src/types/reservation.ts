@@ -1,23 +1,31 @@
-export type Reservation = {
+export type Reservations = {
   id: string;
   startPlannedDate: string; // full ISO string
   returnPlannedDate: string; // full ISO string
-  carModels: string; // comma-separated list
-  carRegistrationNumber: string; // comma-separated list
-  isReturnConfirmed: boolean;
-  isReturnAppointed: boolean;
-};
-
-export type SlimReservation = {
-  hourOfLetOut: string;
-  hourOfReturn: string;
-  carModel: string;
-  registration: string;
-  confirmedWithClient: "Yes" | "No";
-  appointedByAssistance: "Yes" | "No";
 };
 
 export type ApiResponse = {
   count: number;
-  data: Reservation[];
+  data: Reservations[];
+};
+
+export type Reservation = {
+  hourOfLetOut: string;
+  hourOfReturn: string;
+  carModel: string;
+  registration: string;
+  isReturnAppointed: boolean;
+  isReturnConfirmed: boolean;
+  typeCode: string;
+  startData: { plannedDate: string };
+  endData: { plannedDate: string };
+  leases: [
+    {
+      state: 1;
+      car: { registrationNumber: string; modelName: string };
+      ascriptionPriority: 2;
+      letOutData: { address: { fullName: string | null } };
+      returnData: { address: { fullName: string | null } };
+    }
+  ];
 };
