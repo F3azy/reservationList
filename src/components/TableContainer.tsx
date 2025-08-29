@@ -114,8 +114,8 @@ const TableContainer = () => {
                 >
                   <td className="py-3 px-4">-</td>
                   <td className="py-3 px-4">{hour}</td>
-                  <td className="py-3 px-4">{lease.car.modelName}</td>
-                  <td className="py-3 px-4">{lease.car.registrationNumber}</td>
+                  <td className="py-3 px-4">{lease.car?.modelName}</td>
+                  <td className="py-3 px-4">{lease.car?.registrationNumber}</td>
                   <td className="py-3 px-4">
                     {lease.returnData.address?.fullName || ""}
                   </td>
