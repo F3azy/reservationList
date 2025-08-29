@@ -22,7 +22,7 @@ export type Reservation = {
   leases: [
     {
       state: 1;
-      car: { registrationNumber: string; modelName: string };
+      car: { registrationNumber: string | null; modelName: string | null };
       ascriptionPriority: 2;
       letOutData: { address: { fullName: string | null } };
       returnData: { address: { fullName: string | null } };
