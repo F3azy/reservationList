@@ -28,9 +28,9 @@ function generatePDFData(
     "Return Hour",
     "Car Model",
     "Registration",
+    "Appointed by Assistance",
+    "Confirmed with client",
     "Address",
-    "Appointed",
-    "Confirmed",
   ];
 
   const letOutData = letOutReservations.map((r) => {
@@ -42,9 +42,9 @@ function generatePDFData(
       "-",
       lease?.car?.modelName || "",
       lease?.car?.registrationNumber || "",
-      lease?.letOutData?.address?.fullName || "",
       r.isReturnAppointed ? "√" : "-",
       r.isReturnConfirmed ? "√" : "-",
+      lease?.letOutData?.address?.fullName || "",
     ];
   });
 
@@ -57,9 +57,9 @@ function generatePDFData(
         : "-",
       lease?.car?.modelName || "",
       lease?.car?.registrationNumber || "",
-      lease?.returnData?.address?.fullName || "",
       r.isReturnAppointed ? "√" : "-",
       r.isReturnConfirmed ? "√" : "-",
+      lease?.returnData?.address?.fullName || "",
     ];
   });
 
@@ -77,14 +77,13 @@ function generatePDFData(
     head: [columns],
     body: [...letOutData, ...gap, ...returnData],
     startY: 20,
-    theme: "grid",
     headStyles: {
       fillColor: [33, 150, 243],
       textColor: 255,
       font: "Roboto",
       fontStyle: "normal",
     },
-    styles: { fontSize: 10, font: "Roboto", fontStyle: "normal" },
+    styles: { fontSize: 10, font: "Roboto", fontStyle: "normal", lineWidth: 0.1, lineColor: "#545454" },
   });
 
   return doc;

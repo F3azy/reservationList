@@ -53,9 +53,9 @@ const TableContainer = () => {
               <th className="py-3 px-4 text-left">Return Hour</th>
               <th className="py-3 px-4 text-left">Car Model</th>
               <th className="py-3 px-4 text-left">Registration</th>
+              <th className="py-3 px-4 text-left">Appointed by assi</th>
+              <th className="py-3 px-4 text-left">Confirmed with client</th>
               <th className="py-3 px-4 text-left">Address</th>
-              <th className="py-3 px-4 text-left">Appointed</th>
-              <th className="py-3 px-4 text-left">Confirmed</th>
             </tr>
           </thead>
           <tbody className="text-white-base">
@@ -74,11 +74,11 @@ const TableContainer = () => {
                   <td className="py-3 px-4">-</td>
                   <td className="py-3 px-4">{lease.car.modelName}</td>
                   <td className="py-3 px-4">{lease.car.registrationNumber}</td>
+                  <td className="py-3 px-4">{renderAppointed(r, "letOut")}</td>
+                  <td className="py-3 px-4">{renderConfirmed(r, "letOut")}</td>
                   <td className="py-3 px-4">
                     {lease.letOutData.address?.fullName || ""}
                   </td>
-                  <td className="py-3 px-4">{renderAppointed(r, "letOut")}</td>
-                  <td className="py-3 px-4">{renderConfirmed(r, "letOut")}</td>
                 </tr>
               );
             })}
@@ -116,11 +116,11 @@ const TableContainer = () => {
                   <td className="py-3 px-4">{hour}</td>
                   <td className="py-3 px-4">{lease.car.modelName}</td>
                   <td className="py-3 px-4">{lease.car.registrationNumber}</td>
+                  <td className="py-3 px-4">{renderAppointed(r, "return")}</td>
+                  <td className="py-3 px-4">{renderConfirmed(r, "return")}</td>
                   <td className="py-3 px-4">
                     {lease.returnData.address?.fullName || ""}
                   </td>
-                  <td className="py-3 px-4">{renderAppointed(r, "return")}</td>
-                  <td className="py-3 px-4">{renderConfirmed(r, "return")}</td>
                 </tr>
               );
             })}
