@@ -12,7 +12,6 @@ function isSameDay(date1: Date, date2: Date) {
 // Let-out reservations: take first car
 export function getLetOutId(data: Reservations[]): string[] {
   const today = new Date();
-  today.setDate(today.getDate())
 
   return data
     .map((r) => {
@@ -27,7 +26,6 @@ export function getLetOutId(data: Reservations[]): string[] {
 // Return reservations: take last car
 export function getReturnId(data: Reservations[]): string[] {
   const today = new Date();
-  today.setDate(today.getDate())
 
   return data
     .map((r) => {
