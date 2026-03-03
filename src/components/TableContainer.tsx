@@ -1,6 +1,6 @@
 import { useReservations } from "../hooks/useReservations";
 import { printReservationsPDF } from "../utils/print";
-import DatePicker from "./datePicker";
+import DatePicker from "./DatePicker";
 
 const TableContainer = () => {
   const { letOutReservations, returnReservations, loading, error } =
