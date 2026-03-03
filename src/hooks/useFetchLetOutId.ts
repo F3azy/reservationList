@@ -4,9 +4,12 @@ import { fetchJSON } from "../utils/api";
 import { letOutFIlter } from "../const/fetchFilters";
 import { getLetOutId } from "../utils/dataFilter";
 import type { ApiResponse } from "../types/reservation";
+import { useDate } from "../context/useDateContext";
 
 const useFetchLetOutId = () => {
   const { accessToken } = useAuth();
+
+  const {date} = useDate();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +35,10 @@ const useFetchLetOutId = () => {
           }
         );
 
-        setLetOuts(getLetOutId(data.data));
+        console.log(getLetOutId(data.data, date));
+        
+
+        setLetOuts(getLetOutId(data.data, date));
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -41,7 +47,7 @@ const useFetchLetOutId = () => {
     }
 
     fetchData();
-  }, [accessToken]);
+  }, [accessToken, date]);
 
   return { letOuts, loading, error };
 };

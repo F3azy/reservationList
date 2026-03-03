@@ -10,29 +10,25 @@ function isSameDay(date1: Date, date2: Date) {
 }
 
 // Let-out reservations: take first car
-export function getLetOutId(data: Reservations[]): string[] {
-  const today = new Date();
-
+export function getLetOutId(data: Reservations[], date: Date): string[] {
   return data
     .map((r) => {
       const dateObj = new Date(r.startPlannedDate);
       const hour = dateObj.toTimeString().slice(0, 5); // HH:MM
       return { ...r, dateObj, hour };
     })
-    .filter((r) => isSameDay(r.dateObj, today))
+    .filter((r) => isSameDay(r.dateObj, date))
     .map((r) => r.id);
 }
 
 // Return reservations: take last car
-export function getReturnId(data: Reservations[]): string[] {
-  const today = new Date();
-
+export function getReturnId(data: Reservations[], date: Date): string[] {
   return data
     .map((r) => {
       const dateObj = new Date(r.returnPlannedDate);
       const hour = dateObj.toTimeString().slice(0, 5); // HH:MM
       return { ...r, dateObj, hour };
     })
-    .filter((r) => isSameDay(r.dateObj, today))
+    .filter((r) => isSameDay(r.dateObj, date))
     .map((r) => r.id);
 }

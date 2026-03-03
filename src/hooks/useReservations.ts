@@ -3,7 +3,7 @@ import useFetchReturnId from "./useFetchReturnId";
 import useFetchReservationsByIds from "./useFetchReservationsByIds";
 import type { Reservation } from "../types/reservation";
 
-export function useTodayReservations() {
+export function useReservations() {
   // 1. get today's let-out & return IDs
   const { letOuts, loading: loadingLetOutIds, error: errorLetOutIds } = useFetchLetOutId();
   const { returns, loading: loadingReturnIds, error: errorReturnIds } = useFetchReturnId();

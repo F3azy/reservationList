@@ -11,7 +11,7 @@ export default function useFetchReservationsByIds(ids: string[]) {
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
   useEffect(() => {
-    if (!accessToken || ids.length === 0) return;
+    if (!accessToken ) return;
 
     const controller = new AbortController();
     const signal = controller.signal;
@@ -31,16 +31,17 @@ export default function useFetchReservationsByIds(ids: string[]) {
                   Authorization: "Bearer " + accessToken,
                 },
                 signal, // pass signal to fetchJSON if it supports it
-              }
-            )
-          )
+              },
+            ),
+          ),
         );
 
         if (!signal.aborted) {
           setReservations(results);
         }
       } catch (err: any) {
-        if (!signal.aborted) setError(err.message || "Error fetching reservations");
+        if (!signal.aborted)
+          setError(err.message || "Error fetching reservations");
       } finally {
         if (!signal.aborted) setLoading(false);
       }
